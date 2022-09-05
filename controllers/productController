@@ -1,0 +1,80 @@
+const fs = require("fs");
+
+//Handlers
+exports.getAllProducts = (req, res) => {
+  const products = JSON.parse(fs.readFileSync(`${__dirname}/../data/products.json`))
+  res.status(200).json({
+    status: "success",
+    timeOfRequest: req.requestTime,
+    results: products.length,
+    data: {
+      products, //products: products,
+    }
+  });
+}
+
+exports.createProduct = (req, res) => {
+  const products = JSON.parse(fs.readFileSync(`${__dirname}/../data/products.json`))
+  products.push(req.body);
+  fs.writeFileSync(`${__dirname}/../data/products.json`, JSON.stringify(products));
+  console.log(products);
+  res.status(200).json({
+    status: "success",
+    data: {
+      products, //products: products,
+    }
+  });
+}
+
+exports.showProduct = (req, res) => {
+  const products = JSON.parse(fs.readFileSync(`${__dirname}/../data/products.json`))
+  const product = products.find((p) => p.id == req.params.id);
+  if (product) { 
+    return res.status(200).json({
+      status: "success",
+      data: {
+        product, //product: product,
+      },
+    });
+  }
+  res.status(404).json({
+    status: "Not found",
+  });
+  console.log(req.params);
+}
+
+exports.updateProduct = (req, res) => {
+  const products = JSON.parse(fs.readFileSync(`${__dirname}/../data/products.json`))
+  const product = products.find((p) => p.id == req.params.id);
+  console.log(req.body);
+  if (product) {
+    const filteredProducts = products.filter((p) => p.id != req.params.id);
+    filteredProducts.push(req.body);
+    fs.writeFileSync(`${__dirname}/../data/products.json`, JSON.stringify(filteredProducts));
+    return res.status(200).json({
+      status: "success",
+      data: {
+        product, //product: product,
+      },
+    });
+  }
+  res.status(404).json({
+    status: "Not found",
+  });
+}
+
+exports.deleteProduct = (req, res) => {
+  const products = JSON.parse(fs.readFileSync(`${__dirname}/../data/products.json`))
+  const product = products.find((p) => p.id == req.params.id);
+  if (product) {
+    const filteredProducts = products.filter((p) => p.id != req.params.id);
+    fs.writeFileSync(`${__dirname}/../data/products.json`, JSON.stringify(filteredProducts));
+    res.status(204).json({
+      status: 'success',
+      data: null,
+      });
+  }
+  res.status(404).json({
+    status: "Not found",
+  });
+}
