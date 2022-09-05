@@ -16,5 +16,13 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcorcko/practica1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jcorcko/practica1/issues"
+  },
+  "homepage": "https://github.com/jcorcko/practica1#readme",
   "description": ""
 }

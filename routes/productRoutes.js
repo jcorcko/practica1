@@ -9,7 +9,8 @@ productRouter
     .post(productController.createProduct);
 productRouter.route("/:id")
     .get(productController.showProduct)
-    .patch(productController.updateProduct)
+    .put(productController.updateProduct)
+    //.patch(productController.updateProduct)
     .delete(productController.deleteProduct);
 
 module.exports = productRouter;
